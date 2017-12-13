@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Academic Management</title>
+    </h:head>
+    <h:body>
+
+        <h1>Welcome #{userManager.username}</h1>        
+
+        <h:panelGrid columns="2">
+
+            <h:outputLabel for="username" value="Username: " />
+            <h:outputText 
+                id="username"
+                value="#{studentManager.student.username}"/>
+
+            <h:outputLabel for="name" value="Name: " />
+            <h:outputText 
+                id="name"
+                value="#{studentManager.student.name}"/>
+
+            <h:outputLabel for="email" value="Email: " />
+            <h:outputText 
+                id="email"
+                value="#{studentManager.student.email}"/>
+
+            <h:outputLabel for="course" value="Course: " />
+            <h:outputText 
+                id="course"
+                value="#{studentManager.student.courseName}"/>
+
+        </h:panelGrid>
+
+        <br/>        
+
+        <h:dataTable
+            var="subject"
+            summary="List of all student's subjects"
+            value="#{studentManager.subjects}"
+            rules="all"
+            cellpadding="5">
+
+            <f:facet name="header">
+                <h:outputText value="Student's Subjects" />
+            </f:facet>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Code" />
+                </f:facet>
+                <h:outputText value="#{subject.code}" />
+                <!--Falta validar o formato-->
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name" />
+                </f:facet>
+                <h:outputText value="#{subject.name}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Course Year" />
+                </f:facet>
+                <h:outputText value="#{subject.courseYear}" />
+            </h:column>                        
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Scholar Year" />
+                </f:facet>
+                <h:outputText value="#{subject.scholarYear}" />
+            </h:column>                        
+
+        </h:dataTable>
+
+        <br/>
+
+        <h:form enctype="multipart/form-data">
+            <p:growl id="messages" showDetail="true" />
+            <p:fileUpload value="#{uploadManager.file}" mode="simple" skinSimple="true"/>
+            <p:commandButton value="Submit" ajax="false" actionListener="#{uploadManager.upload}" action="#{studentManager.uploadDocument}"/>
+        </h:form>
+
+        <br/>
+        
+        <h:form rendered="${not empty studentManager.documents}">
+
+            <h:outputLabel for="document" value="Student document: " />
+            <h:selectOneMenu id="document" value="#{downloadManager.documentId}" >
+                <f:selectItems value="${studentManager.documents}" var="doc" itemValue="${doc.id}" itemLabel="${doc.desiredName}" />
+            </h:selectOneMenu>
+            <br></br>
+
+            <p:commandButton value="Download" ajax="false">
+                <p:fileDownload value="#{downloadManager.file}" />
+            </p:commandButton>
+        </h:form>
+
+
+        <h:messages errorStyle="color: red" />        
+
+    </h:body>
+</html>
+

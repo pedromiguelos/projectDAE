@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+
+        <h:panelGrid columns="2">
+
+            <h:outputLabel for="code" value="Code: " />
+            <h:outputText 
+                id="code"
+                value="#{administratorManager.currentSubject.code}"/>
+
+            <h:outputLabel for="name" value="Name: " />
+            <h:outputText 
+                id="name"
+                value="#{administratorManager.currentSubject.name}"/>
+
+            <h:outputLabel for="courseName" value="Course name: " />
+            <h:outputText 
+                id="courseName"
+                value="#{administratorManager.currentSubject.courseName}"/>
+
+            <h:outputLabel for="courseYear" value="Course year: " />
+            <h:outputText 
+                id="courseYear"
+                value="#{administratorManager.currentSubject.courseYear}"/>
+
+            <h:outputLabel for="scholarYear" value="Scholar year: " />
+            <h:outputText 
+                id="scholarYear"
+                value="#{administratorManager.currentSubject.scholarYear}"/>
+
+        </h:panelGrid>
+
+        <br/>        
+
+        <h:dataTable
+            var="student"
+            summary="Enrolled students"
+            value="#{administratorManager.enrolledStudents}"
+            rules="all"
+            cellpadding="5">
+
+            <f:facet name="header">
+                <h:outputText value="Enrolled students" />
+            </f:facet>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Username" />
+                </f:facet>
+                <h:outputText value="#{student.username}" />
+                <!--Falta validar o formato-->
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name" />
+                </f:facet>
+                <h:outputText value="#{student.name}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Email" />
+                </f:facet>
+                <h:outputText value="#{student.email}" />
+            </h:column>                        
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:form>
+                    <h:commandLink value="Unroll" actionListener="#{administratorManager.unrollStudent}">
+                        <f:param name="studentUsername" id="studentUsername" value="#{student.username}" />
+                    </h:commandLink>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>            
+
+        <br/>
+
+        <h:dataTable
+            var="student"
+            summary="Unrolled students"
+            value="#{administratorManager.unrolledStudents}"
+            rules="all"
+            cellpadding="5">
+
+            <f:facet name="header">
+                <h:outputText value="Unrolled students" />
+            </f:facet>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Username" />
+                </f:facet>
+                <h:outputText value="#{student.username}" />
+                <!--Falta validar o formato-->
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Name" />
+                </f:facet>
+                <h:outputText value="#{student.name}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Email" />
+                </f:facet>
+                <h:outputText value="#{student.email}" />
+            </h:column>                        
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:form>
+                    <h:commandLink value="Enroll" actionListener="#{administratorManager.enrollStudent}">
+                        <f:param name="studentUsername" id="studentUsername" value="#{student.username}" />
+                    </h:commandLink>
+                </h:form>
+            </h:column>
+
+        </h:dataTable>            
+        
+        
+        <br/>
+
+        <h:link value="Return" outcome="index"/>        
+        
+        <h:messages errorStyle="color: red" />        
+
+    </h:body>
+</html>
+

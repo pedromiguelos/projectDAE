@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:em="http://xmlns.jcp.org/jsf/composite/emcomp"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="../templates/skeleton.xhtml">
+
+        <ui:define name="title">ACADEMIC MANAGEMENT</ui:define>
+
+        <ui:define name="main">
+
+            <em:dt title="Students" headers="#{['Username', 'Name', 'Email', 'Course']}" props="#{['username', 'name', 'email', 'courseName']}" list="#{administratorManager.allStudentsREST}">
+                <p:column headerText="Actions">
+                    <h:form>
+                        <h:commandLink value="Details" action="students/details?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentStudent}" value="#{object}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Update" action="students/update?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentStudent}" value="#{object}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Remove" actionListener="#{administratorManager.removeStudent}">
+                            <f:param name="studentUsername" id="studentUsername1" value="#{object.username}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Send email" actionListener="#{administratorManager.sendEmail}">
+                            <f:param name="studentUsername" id="studentUsername2" value="#{object.username}" />
+                        </h:commandLink>                        
+                    </h:form>
+                </p:column>
+            </em:dt>
+
+            <br/>
+            <br/>
+
+            <h:link value="New student" outcome="students/create" class="btn btn-primary"/>
+
+            <br/>
+            <br/>       
+
+            <em:dt title="Courses" headers="#{['Code', 'Name']}" props="#{['code', 'name']}" list="#{administratorManager.allCourses}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Actions" />
+                    </f:facet>
+                    <h:form>
+                        <h:commandLink value="Details" action="courses/details?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentCourse}" value="#{object}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Remove" actionListener="#{administratorManager.removeCourse}">
+                            <f:param name="courseCode" id="courseCode" value="#{object.code}" />
+                        </h:commandLink>
+                    </h:form>
+                </p:column>
+            </em:dt>
+            
+            <br/>
+            <br/>
+            
+            <h:link value="New course" outcome="courses/create" class="btn btn-primary"/>
+            
+            <br/>
+            <br/>                        
+            
+            <em:dt title="Subjects" headers="#{['Code', 'Name']}" props="#{['code', 'name', 'courseName', 'courseYear','scholarYear']}" list="#{administratorManager.allSubjects}">
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Actions" />
+                    </f:facet>
+                    <h:form>
+                        <h:commandLink value="Details" action="subjects/details?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentSubject}" value="#{object}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Manage Students" action="subjects/update?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentSubject}" value="#{object}" />
+                        </h:commandLink>
+                        &nbsp;
+                        <h:commandLink value="Remove" actionListener="#{administratorManager.removeSubject}">
+                            <f:param name="subjectCode" id="subjectCode" value="#{object.code}" />
+                        </h:commandLink>
+                    </h:form>
+                </p:column>
+            </em:dt>            
+            
+            <br/>
+            <br/>
+
+            <h:link value="New subject" outcome="subjects/create" class="btn btn-primary"/>
+
+            <br/>
+            <br/>
+
+            <h:messages errorClass="error" />
+
+        </ui:define>
+    </ui:composition> 
+</html>
